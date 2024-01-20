@@ -11,8 +11,7 @@ def bulk_10_discount(cartTotal):
     return cartTotal * (10 / 100)
 
 # If total quantity exceeds 30 units & any single product quantity greater than 15, 
-# then apply a 50% discount on products which are above  15 quantity.
-# The first 15 quantities have the original price and units above 15 will get a 50% discount.
+# then apply a 50% discount on products which are above 15 quantity. First 15 units have original price
 def tiered_50_discount(priceofDiscountProduct):
     return priceofDiscountProduct * (50/100)
 
