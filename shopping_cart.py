@@ -1,75 +1,61 @@
-# If cart total exceeds $200, apply a flat $10 discount on the cart total.
-def flat_10_discount(cartTotal):
-    return cartTotal - 10.0
+# discount 1 - flat_10_discount
+def flat_10_discount():
+    return 10.0
 
-# If the quantity of any single product exceeds 10 units, apply a 5% discount on that item's total price.
-def bulk_5_discount(priceofProduct):
-    return priceofProduct * (5 / 100)
+# discount 2 - bulk_5_discount
+def bulk_5_discount(priceOfProduct):
+    return priceOfProduct * (5 / 100)
 
-# If total quantity exceeds 20 units, apply a 10% discount on the cart total.
+# discount 3 - bulk_10_discount
 def bulk_10_discount(cartTotal):
     return cartTotal * (10 / 100)
 
-# If total quantity exceeds 30 units & any single product quantity greater than 15, 
-# then apply a 50% discount on products which are above 15 quantity. First 15 units have original price
-def tiered_50_discount(priceofDiscountProduct):
-    return priceofDiscountProduct * (50/100)
+# discount 4 - tiered_50_discount
+def tiered_50_discount(priceOfDiscountProduct):
+    return priceOfDiscountProduct * (50/100)
 
 def applyDiscount():
     # dictionary to store the discount values with its discount name. {discount name : discount price}
-    discount = {}
+    discountAmounts = {}
 
-    # rule 1
+    # check flat_10_discount
     if cartTotal > 200:
-        flat_10_discount_bill = flat_10_discount(cartTotal)
-        discount["flat_10_discount"] = flat_10_discount_bill
-    # rule 2
+        flat_10_discount_amount = flat_10_discount()
+        discountAmounts["flat_10_discount"] = flat_10_discount_amount
+    # check bulk_5_discount
     if(quantityOfProductA > 10) or (quantityOfProductB > 10) or (quantityOfProductC > 10):
-        bulk_5_discount_bill_A = 0
-        bulk_5_discount_bill_B = 0
-        bulk_5_discount_bill_C = 0
+        bulk_5_discount_amount_A = 0
+        bulk_5_discount_amount_B = 0
+        bulk_5_discount_amount_C = 0
         if(quantityOfProductA > 10):
-            bulk_5_discount_bill_A = bulk_5_discount(totalAmountOfA)
+            bulk_5_discount_amount_A = bulk_5_discount(totalAmountOfProductA)
         if(quantityOfProductB > 10):
-            bulk_5_discount_bill_B = bulk_5_discount(totalAmountOfB)
+            bulk_5_discount_amount_B = bulk_5_discount(totalAmountOfProductB)
         if(quantityOfProductC > 10):
-            bulk_5_discount_bill_C = bulk_5_discount(totalAmountOfC)
-        bulk_5_discount_bill = cartTotal - bulk_5_discount_bill_A - bulk_5_discount_bill_B - bulk_5_discount_bill_C
-        discount["bulk_5_discount"] = bulk_5_discount_bill
-    # rule 3
+            bulk_5_discount_amount_C = bulk_5_discount(totalAmountOfProductC)
+        bulk_5_discount_amount = bulk_5_discount_amount_A + bulk_5_discount_amount_B + bulk_5_discount_amount_C
+        discountAmounts["bulk_5_discount"] = bulk_5_discount_amount
+    # check bulk_10_discount
     if(totalQuantity > 20):
-        bulk_10_discount_bill = cartTotal - bulk_10_discount(cartTotal)
-        discount["bulk_10_discount"] = bulk_10_discount_bill
-    # rule 4
+        bulk_10_discount_amount = bulk_10_discount(cartTotal)
+        discountAmounts["bulk_10_discount"] = bulk_10_discount_amount
+    # check tiered_50_discount
     if(totalQuantity > 30):
         tiered_50_discount_amount_A = 0
         tiered_50_discount_amount_B = 0 
         tiered_50_discount_amount_C = 0
         if(quantityOfProductA > 15):
             remainingQuantity = quantityOfProductA - 15
-            costOf15ProductA = 15 * catalog.get("Product A")
             tiered_50_discount_amount_A = (remainingQuantity * catalog.get("Product A")) - tiered_50_discount(remainingQuantity * catalog.get("Product A"))
-            tiered_50_discount_bill_A = costOf15ProductA + tiered_50_discount_amount_A
-        else:
-            tiered_50_discount_bill_A = quantityOfProductA * catalog.get("Product A")
         if(quantityOfProductB > 15):
             remainingQuantity = quantityOfProductB - 15
-            costOf15ProductB = 15 * catalog.get("Product B")
             tiered_50_discount_amount_B = (remainingQuantity * catalog.get("Product B")) - tiered_50_discount(remainingQuantity * catalog.get("Product B"))
-            tiered_50_discount_bill_B = costOf15ProductB + tiered_50_discount_amount_B
-        else:
-            tiered_50_discount_bill_B = quantityOfProductB * catalog.get("Product B")
         if(quantityOfProductC > 15):
             remainingQuantity = quantityOfProductC - 15
-            costOf15ProductC = 15 * catalog.get("Product C")
             tiered_50_discount_amount_C = (remainingQuantity * catalog.get("Product C")) - tiered_50_discount(remainingQuantity * catalog.get("Product C"))
-            tiered_50_discount_bill_C = costOf15ProductC + tiered_50_discount_amount_C
-        else:
-            tiered_50_discount_bill_C = quantityOfProductC * catalog.get("Product C")
-        tiered_50_discount_bill = tiered_50_discount_bill_A + tiered_50_discount_bill_B + tiered_50_discount_bill_C
-        discount["tiered_50_discount"] = tiered_50_discount_bill
-        print(discount)
-    return discount
+        tiered_50_discount_amount = tiered_50_discount_amount_A + tiered_50_discount_amount_B + tiered_50_discount_amount_C
+        discountAmounts["tiered_50_discount"] = tiered_50_discount_amount
+    return discountAmounts
 
 def giftWrap():
     if(isWrapped == "yes"):
@@ -88,25 +74,23 @@ def shipping():
     shippingFee = package * 5.0
     return shippingFee
 
-def display(discount):
+def display(discountAmounts):
     print("\nProduct Name\tQuantity\tTotal Amount of that Product")
-    print(f"Product A\t{quantityOfProductA}\t\t${totalAmountOfA}")
-    print(f"Product B\t{quantityOfProductB}\t\t${totalAmountOfB}")
-    print(f"Product C\t{quantityOfProductC}\t\t${totalAmountOfC}")
+    print(f"Product A\t{quantityOfProductA}\t\t${totalAmountOfProductA}")
+    print(f"Product B\t{quantityOfProductB}\t\t${totalAmountOfProductB}")
+    print(f"Product C\t{quantityOfProductC}\t\t${totalAmountOfProductC}")
     print(f"\nSubTotal              : ${cartTotal}")
-    # Minimum Bill is beneficial to the customer
-    beneficialDiscount = min(discount, key = discount.get)
+    # Minimum discount amount is beneficial to the customer
+    beneficialDiscount = max(discountAmounts, key = discountAmounts.get)
     print(f"Discount Name Applied : {beneficialDiscount}")
-    print(f"Discount Amount       : ${cartTotal - discount[beneficialDiscount]}")
-    print(f"Amount after discount : ${discount[beneficialDiscount]}")
+    print(f"Discount Amount       : ${discountAmounts[beneficialDiscount]}")
     shipFee = shipping()
     giftWrapFee = giftWrap()
     print(f"Shipping Fee          : ${shipFee}")
     print(f"Gift Wrap Fee         : ${giftWrapFee}")
-    totalAmount = discount[beneficialDiscount] + shipFee + giftWrapFee
+    totalAmount = cartTotal - discountAmounts[beneficialDiscount] + shipFee + giftWrapFee
     print(f"Total                 : ${totalAmount}")
 
-# ------------------------------------------------------------------------------------------------
 # Defining a dictionary of catalog "Product Name : Price"
 catalog = {
     "Product A" : 20.0,
@@ -130,17 +114,17 @@ while(True):
     else:
         print("Invalid inputs. Try again!")
 
-totalAmountOfA = catalog.get("Product A") * quantityOfProductA
-totalAmountOfB = catalog.get("Product B") * quantityOfProductB
-totalAmountOfC = catalog.get("Product C") * quantityOfProductC
+totalAmountOfProductA = catalog.get("Product A") * quantityOfProductA
+totalAmountOfProductB = catalog.get("Product B") * quantityOfProductB
+totalAmountOfProductC = catalog.get("Product C") * quantityOfProductC
 
 # total amount in cart
-cartTotal = totalAmountOfA + totalAmountOfB + totalAmountOfC
+cartTotal = totalAmountOfProductA + totalAmountOfProductB + totalAmountOfProductC
 
 # total quantity of products
 totalQuantity = quantityOfProductA + quantityOfProductB + quantityOfProductC
-discount = applyDiscount()
+discountAmounts = applyDiscount()
 
-# display the bill
-print("\nBill:")
-display(discount)
+# display the invoice
+print("\nInvoice:")
+display(discountAmounts)
