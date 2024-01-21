@@ -1,47 +1,5 @@
-// Used for User-Input
+// Import propt-sync for User-Input
 const prompt = require("prompt-sync")();
-
-// Defining a map for Product and its price
-const catalog = new Map([
-    ["Product A" , 20.0],
-    ["Product B" , 40.0],
-    ["Product C" , 50.0]
-]);
-    
-console.log("\nProducts and their Price")
-
-for(const [product, price] of catalog){
-    console.log(`${product} : $${price}`);
-}
-
-while(true){
-    var quantityOfProductA = parseInt(prompt("Enter the quantity of product 'Product A': "));
-    var quantityOfProductB = parseInt(prompt("Enter the quantity of product 'Product B': "));
-    var quantityOfProductC = parseInt(prompt("Enter the quantity of product 'Product C': "));
-    var isWrapped = prompt("Want to wrap as gift (yes / no)? ");
-
-    // Validating the inputs so that negative values are not valid
-    if ((quantityOfProductA >= 0 && quantityOfProductB >= 0 && quantityOfProductC >= 0) && (isWrapped.toLowerCase() == 'yes' || isWrapped.toLowerCase() == 'no')){
-        break
-    }
-    else{
-        console.log("Invalid inputs. Try again!")
-    }  
-}
-
-const totalAmountOfProductA = catalog.get("Product A") * quantityOfProductA;
-const totalAmountOfProductB = catalog.get("Product B") * quantityOfProductB;
-const totalAmountOfProductC = catalog.get("Product C") * quantityOfProductC;
-
-//  total amount in cart
-const cartTotal = totalAmountOfProductA + totalAmountOfProductB + totalAmountOfProductC
-//  total quantity of products
-const totalQuantity = quantityOfProductA + quantityOfProductB + quantityOfProductC
-
-const discountAmounts = applyDiscount();
-// display the invoice
-console.log("\nInvoice:")
-display(discountAmounts)
 
 // declaring the discount amount to null
 let flat_10_discount_amount = null;
@@ -153,20 +111,61 @@ const giftWrap = () => {
     return wrapAmount
 };
 
-const display = (discount) => {
+const display = (discountAmounts) => {
     console.log("\nProduct Name\tQuantity\tTotal Amount of that Product");
-    console.log(`Product A\t${quantityOfProductA}\t\t$${totalAmountOfProductA}`);
-    console.log(`Product B\t${quantityOfProductB}\t\t$${totalAmountOfProductB}`);
-    console.log(`Product C\t${quantityOfProductC}\t\t$${totalAmountOfProductC}`);
-    console.log(`\nSubTotal                : $${cartTotal}`);
-    const beneficialDiscount = findBeneficialDiscount(discount);
-    console.log(`Discount Name Appliced  : $${beneficialDiscount.discountName}`);
-    console.log(`Discount Amount         : $${beneficialDiscount.discountPrice}`);
+    console.log(`Product A\t${quantityOfProductA}\t\t$${totalAmountOfProductA.toFixed(2)}`);
+    console.log(`Product B\t${quantityOfProductB}\t\t$${totalAmountOfProductB.toFixed(2)}`);
+    console.log(`Product C\t${quantityOfProductC}\t\t$${totalAmountOfProductC.toFixed(2)}`);
+    console.log(`\nSubTotal                : $${cartTotal.toFixed(2)}`);
+    const beneficialDiscount = findBeneficialDiscount(discountAmounts);
+    console.log(`Discount Name Appliced  : ${beneficialDiscount.discountName}`);
+    console.log(`Discount Amount         : $${beneficialDiscount.discountPrice.toFixed(2)}`);
     const shipFee = shipping();
     const giftWrapFee = giftWrap();
-    console.log(`Shipping Fee            : $${shipFee}`);
-    console.log(`Gift Wrap Fee           : $${giftWrapFee}`);
+    console.log(`Shipping Fee            : $${shipFee.toFixed(2)}`);
+    console.log(`Gift Wrap Fee           : $${giftWrapFee.toFixed(2)}`);
     const totalAmount = cartTotal - beneficialDiscount.discountPrice + shipFee + giftWrapFee
-    console.log(`Total                 : $${totalAmount}`)
+    console.log(`Total                   : $${totalAmount.toFixed(2)}`)
 };
 
+// Defining a map for Product and its price
+const catalog = new Map([
+    ["Product A" , 20],
+    ["Product B" , 40],
+    ["Product C" , 50]
+]);
+    
+console.log("\nProducts and their Price")
+
+for(const [product, price] of catalog){
+    console.log(`${product} : $${(price.toFixed(2))}`);
+}
+
+while(true){
+    var quantityOfProductA = parseInt(prompt("Enter the quantity of product 'Product A': "));
+    var quantityOfProductB = parseInt(prompt("Enter the quantity of product 'Product B': "));
+    var quantityOfProductC = parseInt(prompt("Enter the quantity of product 'Product C': "));
+    var isWrapped = prompt("Want to wrap as gift (yes / no)? ");
+
+    // Validating the inputs so that negative values are not valid
+    if ((quantityOfProductA >= 0 && quantityOfProductB >= 0 && quantityOfProductC >= 0) && (isWrapped.toLowerCase() == 'yes' || isWrapped.toLowerCase() == 'no')){
+        break
+    }
+    else{
+        console.log("Invalid inputs. Try again!")
+    }  
+}
+
+const totalAmountOfProductA = catalog.get("Product A") * quantityOfProductA;
+const totalAmountOfProductB = catalog.get("Product B") * quantityOfProductB;
+const totalAmountOfProductC = catalog.get("Product C") * quantityOfProductC;
+
+//  total amount in cart
+const cartTotal = totalAmountOfProductA + totalAmountOfProductB + totalAmountOfProductC
+//  total quantity of products
+const totalQuantity = quantityOfProductA + quantityOfProductB + quantityOfProductC
+
+const discountAmounts = applyDiscount();
+// display the invoice
+console.log("\nInvoice:")
+display(discountAmounts)
