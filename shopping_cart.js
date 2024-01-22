@@ -112,7 +112,7 @@ const giftWrap = () => {
 };
 
 const display = (discountAmounts) => {
-    console.log("\nProduct Name\tQuantity\tTotal Amount of that Product");
+    console.log("\nProduct Name\tQuantity\tTotal Amount");
     console.log(`Product A\t${quantityOfProductA}\t\t$${totalAmountOfProductA.toFixed(2)}`);
     console.log(`Product B\t${quantityOfProductB}\t\t$${totalAmountOfProductB.toFixed(2)}`);
     console.log(`Product C\t${quantityOfProductC}\t\t$${totalAmountOfProductC.toFixed(2)}`);

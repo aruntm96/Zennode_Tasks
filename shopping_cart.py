@@ -75,7 +75,7 @@ def shipping():
     return shippingFee
 
 def display(discountAmounts):
-    print("\nProduct Name\tQuantity\tTotal Amount of that Product")
+    print("\nProduct Name\tQuantity\tTotal Amount")
     print(f"Product A\t{quantityOfProductA}\t\t${totalAmountOfProductA:.2f}")
     print(f"Product B\t{quantityOfProductB}\t\t${totalAmountOfProductB:.2f}")
     print(f"Product C\t{quantityOfProductC}\t\t${totalAmountOfProductC:.2f}")
