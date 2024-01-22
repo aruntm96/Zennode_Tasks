@@ -76,20 +76,20 @@ def shipping():
 
 def display(discountAmounts):
     print("\nProduct Name\tQuantity\tTotal Amount of that Product")
-    print(f"Product A\t{quantityOfProductA}\t\t${totalAmountOfProductA}")
-    print(f"Product B\t{quantityOfProductB}\t\t${totalAmountOfProductB}")
-    print(f"Product C\t{quantityOfProductC}\t\t${totalAmountOfProductC}")
-    print(f"\nSubTotal              : ${cartTotal}")
+    print(f"Product A\t{quantityOfProductA}\t\t${totalAmountOfProductA:.2f}")
+    print(f"Product B\t{quantityOfProductB}\t\t${totalAmountOfProductB:.2f}")
+    print(f"Product C\t{quantityOfProductC}\t\t${totalAmountOfProductC:.2f}")
+    print(f"\nSubTotal              : ${cartTotal:.2f}")
     # Minimum discount amount is beneficial to the customer
     beneficialDiscount = max(discountAmounts, key = discountAmounts.get)
     print(f"Discount Name Applied : {beneficialDiscount}")
-    print(f"Discount Amount       : ${discountAmounts[beneficialDiscount]}")
+    print(f"Discount Amount       : ${discountAmounts[beneficialDiscount]:.2f}")
     shipFee = shipping()
     giftWrapFee = giftWrap()
-    print(f"Shipping Fee          : ${shipFee}")
-    print(f"Gift Wrap Fee         : ${giftWrapFee}")
+    print(f"Shipping Fee          : ${shipFee:.2f}")
+    print(f"Gift Wrap Fee         : ${giftWrapFee:.2f}")
     totalAmount = cartTotal - discountAmounts[beneficialDiscount] + shipFee + giftWrapFee
-    print(f"Total                 : ${totalAmount}")
+    print(f"Total                 : ${totalAmount:.2f}")
 
 # Defining a dictionary of catalog "Product Name : Price"
 catalog = {
@@ -101,7 +101,7 @@ catalog = {
 print("\nProducts and their Price")
 
 for product, price in catalog.items():
-    print(f"{product} : ${price}")
+    print(f"{product} : ${price:.2f}")
 
 while(True):
     quantityOfProductA = int(input("Enter the quantity of product 'Product A': "))
