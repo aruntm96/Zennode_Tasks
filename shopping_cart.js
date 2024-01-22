@@ -1,4 +1,4 @@
-// Import propt-sync for User-Input
+// Import prompt-sync for User-Input
 const prompt = require("prompt-sync")();
 
 // declaring the discount amount to null
